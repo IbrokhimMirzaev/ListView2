@@ -14,7 +14,7 @@ import com.example.listview2.R
 import com.example.listview2.databinding.MovieItemBinding
 import com.example.listview2.model.movie.Movie
 
-class MovieAdapter(context: Context, var movies: List<Movie>) :
+class MovieAdapter(context: Context, var movies: MutableList<Movie>) :
     ArrayAdapter<Movie>(context, R.layout.movie_item, movies) {
 
     override fun getCount(): Int {
@@ -22,39 +22,44 @@ class MovieAdapter(context: Context, var movies: List<Movie>) :
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val movieItem: MovieItemBinding
+        val binding: MovieItemBinding
         if (convertView == null) {
-            movieItem = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            binding = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         } else {
-            movieItem = MovieItemBinding.bind(convertView)
+            binding = MovieItemBinding.bind(convertView)
         }
 
         val movie = movies[position]
 
-        movieItem.name.text = movie.name
-        movieItem.imgView.load(movie.img) {
+        binding.name.text = movie.name
+        binding.imgView.load(movie.img) {
             placeholder(R.drawable.empty)
             transformations(CircleCropTransformation())
         }
 
         if (movie.isFavourite) {
-            movieItem.like.setBackgroundResource(R.drawable.favourite)
+            binding.like.setBackgroundResource(R.drawable.favourite)
         } else {
-            movieItem.like.setBackgroundResource(R.drawable.favourite_border)
+            binding.like.setBackgroundResource(R.drawable.favourite_border)
         }
 
 
 
-        movieItem.like.setOnClickListener {
+        binding.like.setOnClickListener {
             movie.isFavourite = !movie.isFavourite
 
             if (movie.isFavourite) {
-                movieItem.like.setBackgroundResource(R.drawable.favourite)
+                binding.like.setBackgroundResource(R.drawable.favourite)
             } else {
-                movieItem.like.setBackgroundResource(R.drawable.favourite_border)
+                binding.like.setBackgroundResource(R.drawable.favourite_border)
             }
         }
 
-        return movieItem.root
+        binding.delete.setOnClickListener {
+            movies.removeAt(position)
+            notifyDataSetChanged()
+        }
+
+        return binding.root
     }
 }

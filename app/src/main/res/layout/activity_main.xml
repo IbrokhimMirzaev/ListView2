@@ -17,10 +17,21 @@
         android:layout_height="70dp">
 
         <TextView
-            android:id="@+id/filterBtn"
+            android:id="@+id/searchBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/filter"/>
+            android:background="@drawable/search"/>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_marginStart="15dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:hint="Search here ..."
+            android:backgroundTint="@color/blue"
+            android:textColorHint="#80FFFFFF"
+            android:layout_height="wrap_content"/>
 
         <Space
             android:layout_width="0dp"
